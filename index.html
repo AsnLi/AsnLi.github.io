@@ -22,7 +22,7 @@
     <link rel="alternative" href="/atom.xml" title="AsnLi的博客" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/img/favicon.ico">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -60,7 +60,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+				<li><a href="/work">工作</a></li>
 	        
 			</ul>
 		</nav>
@@ -140,7 +140,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 50%"><a href="/work">工作</a></li>
 		        
 				</ul>
 			</nav>
@@ -157,40 +157,61 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-蜗居" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-js/Aliplayer" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/12/%E8%9C%97%E5%B1%85/">蜗居</a>
+      <a class="article-title" href="/2021/03/15/js/Aliplayer/">Aliplayer 视音频播放的实践与思考</a>
     </h1>
   
 
         
-        <a href="/2021/03/12/%E8%9C%97%E5%B1%85/" class="archive-article-date">
-  	<time datetime="2021-03-12T05:58:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-12</time>
+        <a href="/2021/03/15/js/Aliplayer/" class="archive-article-date">
+  	<time datetime="2021-03-15T05:58:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-15</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://upload-images.jianshu.io/upload_images/18179539-66af59e7225da6b7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<blockquote>
-<p>重重的壳裹着轻轻的仰望，随着轻轻的风轻轻的飘《蜗牛》</p>
-</blockquote>
-<p>困兽，汹涌出一丝恶意</p>
-<p>我痛恨那面墙，在嘲笑我，他妈的墙！它一点点地挤向我，嘲弄的声响越来越大。从眉毛上流下的汗珠刺痛了我的眼睛，但是我仍然尽量睁着眼睛，因为我必须提防那面嘲弄我的墙，否则它会挤过来将我压碎</p>
-<p>我看到了一些面孔，年老、丑陋的恶魔般的面孔，从黑暗中浮现，令我恐惧不已多么拥挤，它却闯入我的领地</p>
-<p>在沉睡，似乎是在等待着什么，还是有人尚未到来</p>
-<p>脸朝下趴在一块无边无际的玻璃上，近乎贪婪，透过玻璃可以看到遥远的彼岸，风声，两艘在远海呜咽分离的船，撕裂般喘息着渐行渐远</p>
-<p>飘荡在黑暗之中的浓雾，行走于其间，犹斗，却失落了时间，忍不住大吼一声，双颊被泪水浸湿，在夜风中变得冰凉</p>
-<hr>
-<p>推荐阅读</p>
-<ol>
-<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26371317/">  《24个比利》 丹尼尔·凯斯</a></li>
+        <p><img src="https://img-blog.csdnimg.cn/20201026113958849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70#pic_center" alt="Docker"></p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>阿里云Web播放器SDK（Aliplayer SDK）是阿里视频云端到云到端服务的重要一环，结合对象存储（Object Storage Service，简称OSS) 实现深度融合视频云业务，支持视音频的点播和直播等基础播放功能</p>
+<p>本文以 Vue 组件化的角度进行全流程解析、并抽离公共业务逻辑，从而实现可维护、高复用的视音频播放组件</p>
+<h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><p>官方实践直接在页面引入对应的JS、CSS文件，通过暴露全局 <code>window.Aliplayer</code> 属性自定义实例化对象，传送门 =&gt; <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/125570.html">集成文档_Web播放器_播放器SDK_视频点播-阿里云</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://g.alicdn.com/de/prismplayer/2.8.2/skins/default/aliplayer-min.css&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;https://g.alicdn.com/de/prismplayer/2.8.2/aliplayer-min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当我们要对其封装成一个独立的组件时，可以实现一个  <a target="_blank" rel="noopener" href="https://github.com/PanJiaChen/vue-element-admin/blob/master/src/components/Tinymce/dynamicLoadScript.js"><code>dynamicLoadScript</code></a> 函数去解耦全局引用的问题，调用如下 ⬇️</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; dynamicLoadScript &#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils/&#x27;</span></span><br><span class="line"><span class="keyword">const</span> aliplayerCDN = <span class="string">&#x27;https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    dynamicLoadScript(aliplayerCDN, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err)  <span class="keyword">return</span> <span class="built_in">this</span>.$notify(err.message);</span><br><span class="line">     </span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;beforeunload&#x27;</span>, <span class="built_in">this</span>.updateLearnerTime)</span><br><span class="line">      <span class="built_in">this</span>.initAliplayer() <span class="comment">// 初始化视频容器</span></span><br><span class="line">      <span class="built_in">this</span>.$once(<span class="string">&#x27;hook:beforeDestroy&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">window</span>.removeEventListener(<span class="string">&#x27;beforeunload&#x27;</span>, <span class="built_in">this</span>.updateLearnerTime)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;style lang=<span class="string">&quot;postcss&quot;</span> scoped&gt;</span><br><span class="line">  @<span class="keyword">import</span> <span class="string">&#x27;https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css&#x27;</span>;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>通过 <code>dynamicLoadScript</code>，和  <a target="_blank" rel="noopener" href="https://www.postcss.com.cn/"><code>postcss</code></a> 去处理文件引用，Vue hooks 提供组件挂载与销毁的回调，<code>initAliplayer</code> 方法进行初始化</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// html =&gt; &lt;div id=&quot;J_prismPlayer&quot; /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  props: &#123;</span><br><span class="line">	config: &#123;</span><br><span class="line">	  type: <span class="built_in">Object</span>,</span><br><span class="line">	  required: <span class="literal">true</span>,</span><br><span class="line">	  <span class="keyword">default</span> () &#123;</span><br><span class="line">	     <span class="keyword">return</span> &#123;</span><br><span class="line">	       url: <span class="string">&#x27;&#x27;</span>,      <span class="comment">// 视频播放地址</span></span><br><span class="line">	       cover: <span class="string">&#x27;&#x27;</span>,    <span class="comment">// 封面图</span></span><br><span class="line">	       videoId: <span class="string">&#x27;&#x27;</span>,  <span class="comment">// 点播vid</span></span><br><span class="line">	       playTime: <span class="number">0</span>,  <span class="comment">// 续播时长</span></span><br><span class="line">	       chapterId: <span class="string">&#x27;&#x27;</span> <span class="comment">// 章节ID</span></span><br><span class="line">	    &#125;</span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data: <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    baseConfig: &#123;&#125;,   <span class="comment">// Aliplayer 基础配置</span></span><br><span class="line">    player: <span class="literal">null</span>,     <span class="comment">// player 全局共享对象</span></span><br><span class="line">    loading: <span class="literal">false</span>,   <span class="comment">// 加载状态</span></span><br><span class="line">    toggling: <span class="literal">false</span>,</span><br><span class="line">    erroring: <span class="literal">false</span></span><br><span class="line">  &#125;),</span><br><span class="line">  methods: &#123;</span><br><span class="line">    initAliplayer () &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; cover, <span class="attr">url</span>: source, <span class="attr">videoId</span>: vid &#125; = <span class="built_in">this</span>.config</span><br><span class="line">      <span class="keyword">const</span> baseConfig = &#123;</span><br><span class="line">        cover, <span class="attr">id</span>: <span class="string">&#x27;J_prismPlayer&#x27;</span>, <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>, <span class="attr">height</span>: <span class="string">&#x27;100%&#x27;</span>, <span class="attr">autoplay</span>: <span class="literal">false</span>, ...this.baseConfig</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">let</span> $player = <span class="literal">null</span></span><br><span class="line">       </span><br><span class="line">      <span class="comment">// 通过 vid 区别是否点播 or 直播，loading 进行状态标识</span></span><br><span class="line">      <span class="keyword">if</span> (vid) &#123;</span><br><span class="line">        <span class="built_in">this</span>.loading = <span class="literal">true</span></span><br><span class="line">        <span class="built_in">this</span>.$axios.getPlayAuth(vid).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (res.code == <span class="number">200</span> &amp;&amp; res.data) &#123;</span><br><span class="line">            <span class="built_in">this</span>.player = $player = <span class="keyword">new</span> <span class="built_in">window</span>.Aliplayer(&#123;</span><br><span class="line">              ...baseConfig,</span><br><span class="line">              vid,</span><br><span class="line">              playauth: res.data</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="built_in">this</span>.initPlayerEvent($player) <span class="comment">// 初始化容器事件</span></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(res.msg)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;).catch(<span class="built_in">this</span>.error).finally(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">this</span>.loading = <span class="literal">false</span></span><br><span class="line">        &#125;)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.player = $player = <span class="keyword">new</span> <span class="built_in">window</span>.Aliplayer(&#123;</span><br><span class="line">          ...baseConfig,</span><br><span class="line">          source</span><br><span class="line">        &#125;); <span class="built_in">this</span>.initPlayerEvent($player)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>props.config</code> 配置播放器的基础属性，<code>data.baseConfig</code> 对外抛出自定义播放器入口(mixins)，如 Aliplayer 音频播放需单独传入 <code>&#123; format: &#39;mp3&#39;, mediaType: &#39;audio&#39; &#125; </code> 进行区分，传送门 =&gt; <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/125572.html?spm=a2c4g.11186623.6.1085.36fc6fc57WKZ5P#h2-u64ADu653Eu5668u63A5u53E32">属性和接口说明_Web播放器_播放器SDK_视频点播-阿里云</a></p>
+<p>业务逻辑: <code>this.error</code> 交接全局异常处理的句柄，<code>this.initPlayerEvent</code>  初始化容器事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; isObject, throttle &#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">	 initPlayerEvent ($player) &#123;</span><br><span class="line">	    <span class="string">&#x27;ready error pause play ended&#x27;</span>.split(<span class="string">&#x27; &#x27;</span>).forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">	      $player.on(item, <span class="built_in">this</span>[item] || <span class="built_in">console</span>.log)</span><br><span class="line">	    &#125;)</span><br><span class="line">	    <span class="comment">// video 拖动</span></span><br><span class="line">	    $player.on(<span class="string">&#x27;completeSeek&#x27;</span>, <span class="function">(<span class="params">&#123; paramData &#125;</span>) =&gt;</span> <span class="built_in">this</span>.updateLearnerTime(paramData))</span><br><span class="line">	    <span class="comment">// audio 时间更新</span></span><br><span class="line">	    $player.on(<span class="string">&#x27;timeupdate&#x27;</span>, throttle(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">		  <span class="keyword">if</span> (<span class="built_in">this</span>.audio) &#123;</span><br><span class="line">		    <span class="built_in">this</span>.audio.currentTime = player.getCurrentTime()</span><br><span class="line">		  &#125;</span><br><span class="line">	    &#125;, <span class="number">1000</span>))</span><br><span class="line">	  &#125;,</span><br><span class="line">	  <span class="comment">// 异常优先级 API =&gt; Aliplayer =&gt; http Status</span></span><br><span class="line">	  error (msg = <span class="string">&#x27;播放地址未找到～&#x27;</span>) &#123;</span><br><span class="line">	    <span class="built_in">this</span>.erroring = <span class="literal">true</span></span><br><span class="line">	    <span class="keyword">const</span> toastMsg = !isObject(msg)</span><br><span class="line">	      ? <span class="built_in">String</span>(msg)</span><br><span class="line">	      : msg.paramData ? msg.paramData.display_msg : <span class="string">&#x27;404-NotFound&#x27;</span></span><br><span class="line">	</span><br><span class="line">	    <span class="built_in">this</span>.$toast(toastMsg)</span><br><span class="line">	 &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>timeupdate</code> 高频事件通过节流函数 <code>throttle</code> 函数限制成1000ms 触发一次，Aliplayer 异常信息从 <code>msg.paramData</code> 中获取</p>
+<p>业务逻辑: <code>this.updateLearnerTime</code> 记录当前播放时长，触发事件为视音频暂停、拖动、结束</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 记录播放时长</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param  <span class="type">&#123;Number&#125;</span> </span>time 自定义记录时间</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return <span class="type">&#123;Promise&#125;</span></span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">   updateLearnerTime (time = <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; chapterId &#125; = <span class="built_in">this</span>.config</span><br><span class="line">      <span class="keyword">const</span> countTime = time || <span class="built_in">this</span>.player.getCurrentTime()</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">this</span>.$axios.postUpdateLearnerTime(&#123;</span><br><span class="line">        chapterId,</span><br><span class="line">        learnerTime: <span class="built_in">parseInt</span>(countTime)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 播放视频</span></span><br><span class="line">    setPlay () &#123;</span><br><span class="line">      <span class="built_in">this</span>.player.play()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 暂停视频</span></span><br><span class="line">    setPause () &#123;</span><br><span class="line">      <span class="built_in">this</span>.player.pause()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><p><code>/mixins/media.js</code>，单独处理成 mixins 混入公用业务逻辑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; dynamicLoadScript, isObject, throttle &#125; <span class="keyword">from</span> <span class="string">&#x27;@/utils/util&#x27;</span></span><br><span class="line"><span class="keyword">const</span> aliplayerCDN = <span class="string">&#x27;https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    config: &#123;</span><br><span class="line">      type: <span class="built_in">Object</span>,</span><br><span class="line">      required: <span class="literal">true</span>,</span><br><span class="line">      <span class="keyword">default</span> () &#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">          url: <span class="string">&#x27;&#x27;</span>,      <span class="comment">// 视频播放地址</span></span><br><span class="line">          cover: <span class="string">&#x27;&#x27;</span>,    <span class="comment">// 封面图</span></span><br><span class="line">          videoId: <span class="string">&#x27;&#x27;</span>,  <span class="comment">// 点播vid</span></span><br><span class="line">          playTime: <span class="number">0</span>,  <span class="comment">// 续播时长</span></span><br><span class="line">          chapterId: <span class="string">&#x27;&#x27;</span> <span class="comment">// 章节ID</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data: <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    baseConfig: &#123;&#125;, <span class="comment">// Aliplayer 基础配置</span></span><br><span class="line">    player: <span class="literal">null</span>,   <span class="comment">// player 全局共享对象</span></span><br><span class="line">    loading: <span class="literal">false</span>,</span><br><span class="line">    toggling: <span class="literal">false</span>,</span><br><span class="line">    erroring: <span class="literal">false</span></span><br><span class="line">  &#125;),</span><br><span class="line">  watch: &#123;</span><br><span class="line">    <span class="comment">// 切换播放器地址</span></span><br><span class="line">    config (newVal, oldVal) &#123;</span><br><span class="line">      <span class="keyword">if</span> (newVal.url != oldVal.url) &#123;</span><br><span class="line">        <span class="built_in">Object</span>.assign(<span class="built_in">this</span>, &#123; <span class="attr">erroring</span>: <span class="literal">false</span>, <span class="attr">toggling</span>: <span class="literal">true</span> &#125;)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.player.loadByUrl(newVal.url)</span><br><span class="line">        <span class="built_in">this</span>.ready()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  mounted () &#123;</span><br><span class="line">    dynamicLoadScript(aliplayerCDN, <span class="string">&#x27;Aliplayer&#x27;</span>, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span> <span class="built_in">this</span>.$notify(err.message);</span><br><span class="line"></span><br><span class="line">      <span class="built_in">window</span>.addEventListener(<span class="string">&#x27;beforeunload&#x27;</span>, <span class="built_in">this</span>.updateLearnerTime)</span><br><span class="line">      <span class="built_in">this</span>.initAliplayer()</span><br><span class="line">      <span class="built_in">this</span>.$once(<span class="string">&#x27;hook:beforeDestroy&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">window</span>.removeEventListener(<span class="string">&#x27;beforeunload&#x27;</span>, <span class="built_in">this</span>.updateLearnerTime)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    initAliplayer () &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; cover, <span class="attr">url</span>: source, <span class="attr">videoId</span>: vid &#125; = <span class="built_in">this</span>.config</span><br><span class="line">      <span class="keyword">const</span> baseConfig = &#123;</span><br><span class="line">        cover, <span class="attr">id</span>: <span class="string">&#x27;J_prismPlayer&#x27;</span>, <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>, <span class="attr">height</span>: <span class="string">&#x27;100%&#x27;</span>, <span class="attr">autoplay</span>: <span class="literal">false</span>, ...this.baseConfig</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">let</span> $player = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// 通过 vid 区别是否点播 or 直播，loading 进行状态标识</span></span><br><span class="line">      <span class="keyword">if</span> (vid) &#123;</span><br><span class="line">        <span class="built_in">this</span>.loading = <span class="literal">true</span></span><br><span class="line">        <span class="built_in">this</span>.$axios.getPlayAuth(vid).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (res.code == <span class="number">200</span> &amp;&amp; res.data) &#123;</span><br><span class="line">            <span class="built_in">this</span>.player = $player = <span class="keyword">new</span> <span class="built_in">window</span>.Aliplayer(&#123;</span><br><span class="line">              ...baseConfig,</span><br><span class="line">              vid,</span><br><span class="line">              playauth: res.data</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="built_in">this</span>.initPlayerEvent($player) <span class="comment">// 初始化容器事件</span></span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(res.msg)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;).catch(<span class="built_in">this</span>.error).finally(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">this</span>.loading = <span class="literal">false</span></span><br><span class="line">        &#125;)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.player = $player = <span class="keyword">new</span> <span class="built_in">window</span>.Aliplayer(&#123;</span><br><span class="line">          ...baseConfig,</span><br><span class="line">          source</span><br><span class="line">        &#125;); <span class="built_in">this</span>.initPlayerEvent($player)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    initPlayerEvent ($player) &#123;</span><br><span class="line">      <span class="string">&#x27;ready error pause play ended&#x27;</span>.split(<span class="string">&#x27; &#x27;</span>).forEach(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">        $player.on(item, <span class="built_in">this</span>[item] || <span class="built_in">console</span>.log)</span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="comment">// video 拖动</span></span><br><span class="line">      $player.on(<span class="string">&#x27;completeSeek&#x27;</span>, <span class="function">(<span class="params">&#123; paramData &#125;</span>) =&gt;</span> <span class="built_in">this</span>.updateLearnerTime(paramData))</span><br><span class="line">      <span class="comment">// audio 时间更新</span></span><br><span class="line">      $player.on(<span class="string">&#x27;timeupdate&#x27;</span>, throttle(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.audio) &#123;</span><br><span class="line">          <span class="built_in">this</span>.audio.currentTime = $player.getCurrentTime()</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, <span class="number">1000</span>))</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 异常优先级 API =&gt; Aliplayer =&gt; http Status</span></span><br><span class="line">    error (msg = <span class="string">&#x27;播放地址未找到～&#x27;</span>) &#123;</span><br><span class="line">      <span class="built_in">this</span>.erroring = <span class="literal">true</span></span><br><span class="line">      <span class="keyword">const</span> toastMsg = !isObject(msg)</span><br><span class="line">        ? <span class="built_in">String</span>(msg)</span><br><span class="line">        : msg.paramData ? msg.paramData.display_msg : <span class="string">&#x27;404-NotFound&#x27;</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">this</span>.$toast(toastMsg)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 记录播放时长</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param  <span class="type">&#123;Number&#125;</span> </span>time 自定义记录时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return <span class="type">&#123;Promise&#125;</span></span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    updateLearnerTime (time = <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; chapterId &#125; = <span class="built_in">this</span>.config</span><br><span class="line">      <span class="keyword">const</span> countTime = time || <span class="built_in">this</span>.player.getCurrentTime()</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">this</span>.$axios.postUpdateLearnerTime(&#123;</span><br><span class="line">        chapterId,</span><br><span class="line">        learnerTime: <span class="built_in">parseInt</span>(countTime)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 播放视频</span></span><br><span class="line">    setPlay () &#123;</span><br><span class="line">      <span class="built_in">this</span>.player.play()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 暂停视频</span></span><br><span class="line">    setPause () &#123;</span><br><span class="line">      <span class="built_in">this</span>.player.pause()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>视音频组件封装，以视频为例，常见业务场景为视频初始化后进行续播</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> media <span class="keyword">from</span> <span class="string">&#x27;@/mixins/media&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">&#x27;BaseVideo&#x27;</span>,</span><br><span class="line">  mixins: [media],</span><br><span class="line">  methods: &#123;</span><br><span class="line">  	<span class="comment">// 设置当前视频播放时长，根据最后一次的剩余时长进行重播</span></span><br><span class="line">    setPlaySeek (player) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; playTime &#125; = <span class="built_in">this</span>.config</span><br><span class="line">      <span class="keyword">const</span> time = player.getDuration() - playTime</span><br><span class="line">      <span class="keyword">const</span> onClose = <span class="function">() =&gt;</span> player.seek(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (time &lt;= <span class="number">8</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.$toast(&#123; <span class="attr">duration</span>: <span class="number">2000</span>, <span class="attr">message</span>: <span class="string">&#x27;已为您重新播放...&#x27;</span>, onClose &#125;)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        player.seek(playTime)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 初始化容器成功</span></span><br><span class="line">    ready () &#123;</span><br><span class="line">      <span class="built_in">this</span>.toggling = <span class="literal">false</span></span><br><span class="line">      <span class="built_in">this</span>.setPlaySeek(<span class="built_in">this</span>.player)</span><br><span class="line">      <span class="built_in">this</span>.setPlay()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 播放结束</span></span><br><span class="line">    ended () &#123;</span><br><span class="line">      <span class="keyword">const</span> countTime = <span class="built_in">this</span>.player.getCurrentTime() - <span class="number">5</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">this</span>.updateLearnerTime(countTime).finally(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.$emit(<span class="string">&#x27;videoEnded&#x27;</span>, <span class="built_in">this</span>.config)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 视频暂停</span></span><br><span class="line">    pause () &#123;</span><br><span class="line">      <span class="keyword">if</span> (!<span class="built_in">this</span>.toggling) &#123; <span class="built_in">this</span>.updateLearnerTime() &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>已知的一个问题，当视频地址切换的时候，Aliplayer 会重新调用 <code>pause</code> 事件，虽然可以通过 <code>this.player.getStatus()</code> 获取播放器状态，但是设置 <code>toggling</code> 属性更好规避 Aliplayer 带有副作用的事件回调</p>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><ol>
+<li><p>视频播放容器无法被遮挡、自定义遮罩层级显示错误</p>
+<p> 通过切换容器 display 属性进行图片占位，vue可采用 <code>v-show</code> 指令</p>
+</li>
+<li><p>自定义播放器样式</p>
+<p> 以播放按钮居中为例，Xpath ClassName: prism-big-play-btn<br> <img src="https://img-blog.csdnimg.cn/20201026153409459.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li><p>欢迎补充👏</p>
+</li>
+</ol>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li> <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/125570.html">集成文档_Web播放器</a></li>
+<li> <a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/125570.html">属性和接口说明_Web播放器</a></li>
+<li> <a target="_blank" rel="noopener" href="http://player.alicdn.com/aliplayer/setting/setting.html">在线配置_Web播放器</a></li>
 </ol>
 
       
@@ -205,7 +226,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随想</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Aliplayer</a>
         		</li>
       		
 		</ul>
@@ -215,7 +240,308 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/03/12/%E8%9C%97%E5%B1%85/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/03/15/js/Aliplayer/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-css/css-rules-guidelines" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/09/css/css-rules-guidelines/">css-rules-guidelines</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/09/css/css-rules-guidelines/" class="archive-article-date">
+  	<time datetime="2020-06-09T08:28:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWdrci5jbi1iai51ZmlsZW9zLmNvbS82YzI2NjViMS04YmMxLTQ2ZTYtOTc1MS1iOTc2NWJhZGU0MzAucG5n?x-oss-process=image/format,png" alt="CSS3"></p>
+<h3 id="CSS-规范"><a href="#CSS-规范" class="headerlink" title="CSS 规范"></a>CSS 规范</h3><p>CSS 规范使 CSS 文件具有一致性。它们有助于扩展和维护项目。推荐的 CSS 规范如下</p>
+<h4 id="BEM"><a href="#BEM" class="headerlink" title="BEM"></a>BEM</h4><p>BEM —— Block（块）、Element（元素）、Modifier（修饰符）—— 是最流行的 CSS 规范之一。它是一组命名约定，你可以使用它们轻松地设计可复用组件。命名约定遵循以下模式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.block</span> &#123; ... &#125;</span><br><span class="line"><span class="selector-class">.block__element</span> &#123; ... &#125;</span><br><span class="line"><span class="selector-class">.block--modifier</span> &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>.block</code> 块代表一个组件。它们是独立的实体，并且对自身有意义。</li>
+<li><code>.block__element</code> 这些是 <code>.block</code> 的一部分。它们没有独立的含义，必须绑定到一个块上。</li>
+<li><code>.block--modifier</code> 它们被用作块或元素的标志。我们可以使用它们来改变元素的外观、行为或状态。例如，要使用隐藏标记，我们可以命名为 <code>.block--hidden</code></li>
+</ul>
+<h4 id="属性排序"><a href="#属性排序" class="headerlink" title="属性排序"></a>属性排序</h4><p>将纷繁的 CSS 样式属性进行合理地排列，<code>outside in</code>，由外向内，从元素与外界的关系，是否会影响外部布局，到外边距，内边距等</p>
+<ol>
+<li>布局相关(position, float, clear, display)，因为元素的布局会对对相邻元素产生影响，自身甚至会脱离原来的文档流，所以比较重要</li>
+<li>盒模型相关(width, height, margin, padding)</li>
+<li>外观 (color, background, border, box-shadow)</li>
+<li>文字排版 (font-size, font-family, text-align, text-transform)</li>
+<li>其他 (cursor, overflow, z-index)</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.button</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>:inline-block;</span><br><span class="line">    <span class="attribute">margin</span>:<span class="number">1em</span> <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>:<span class="number">1em</span> <span class="number">4em</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">background</span>:<span class="number">#196e76</span>;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">0.25em</span> solid <span class="number">#196e76</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>:inset <span class="number">0.25em</span> <span class="number">0.25em</span> <span class="number">0.5em</span> <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.3</span>), </span><br><span class="line">               <span class="number">0.5em</span> <span class="number">0.5em</span> <span class="number">0</span> <span class="number">#444</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="attribute">font-size</span>:<span class="number">3em</span>;</span><br><span class="line">    <span class="attribute">font-family</span>:Avenir, Helvetica, Arial, sans-serif;</span><br><span class="line">    <span class="attribute">text-align</span>:center;</span><br><span class="line">    <span class="attribute">text-transform</span>:uppercase;</span><br><span class="line">    <span class="attribute">text-decoration</span>:none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用标签代替-CSS"><a href="#使用标签代替-CSS" class="headerlink" title="使用标签代替 CSS"></a>使用标签代替 CSS</h4><p>实际的 CSS 应用。这经常被忽略。通常，你可以简单地通过使用正确的 HTML 标签来减小 CSS 包的大小。假设你的标题包含以下规则：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">span</span><span class="selector-class">.heading</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">1.2em</span>;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">1em</span>;</span><br><span class="line">    <span class="attribute">margin-bottom</span>: <span class="number">1em</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你使用了一个 <code>span</code> 标签作为标题。你重写了默认的显示、间距和字体样式。这可以通过使用 <code>h1</code>、<code>h2</code> 或 <code>h3</code> 来避免。默认情况下，它们具有你试图用其他标签达到的样式。你可以立即少写四条不必要的样式规则，<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32570423">初探 · HTML5语义化</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">css</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">eslint</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/09/css/css-rules-guidelines/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-git-commit-guidelines" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/02/git-commit-guidelines/">git-commit-guidelines</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/02/git-commit-guidelines/" class="archive-article-date">
+  	<time datetime="2020-06-02T02:21:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://img-blog.csdnimg.cn/20200602101939420.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70#pic_center" alt="GitLab"></p>
+<h3 id="Git-Commit-Guidelines"><a href="#Git-Commit-Guidelines" class="headerlink" title="Git Commit Guidelines"></a>Git Commit Guidelines</h3><p>Git 提交应当书写 commit message, 开源社区最广泛的则是 <a target="_blank" rel="noopener" href="https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit">Angular Git Commit Guidelines</a> 规范</p>
+<p>Angular 规范要求的 commit message 格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h3><p>包括三个字段：type(必需)、scope(可选)和subject(必需)</p>
+<h3 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h3><ul>
+<li>feat    : 新功能</li>
+<li>fix     : bug 修复</li>
+<li>docs    : 文档变更</li>
+<li>style   : 样式变更</li>
+<li>refactor: 重构（非新功能也不是bug修复的变动）</li>
+<li>perf    : 性能优化改进</li>
+<li>chore   : 构建过程或辅助工具变更</li>
+</ul>
+<h3 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h3><p>用于标识 commit 影响的范围，可以省略</p>
+<h3 id="Subject"><a href="#Subject" class="headerlink" title="Subject"></a>Subject</h3><p>本次修改的简短描述, 简单要求需言简意赅</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ol>
+<li>feat    : 商品详情页  feat(h5): 商品详情页 </li>
+<li>fix     : 接口变动导致内容报错</li>
+<li>docs    : 新增XX注释、图片、脚本</li>
+<li>style   : 首页样式优化</li>
+<li>refactor: 重构XX模块 refactor(dev)：重构XX模块</li>
+<li>perf    : 打包分析</li>
+<li>chore   : 清除 log</li>
+</ol>
+<h3 id="Branch-rules"><a href="#Branch-rules" class="headerlink" title="Branch rules"></a>Branch rules</h3><p>git分支：<code>master</code> 【生产主干】 <code>test</code>【测试分支】 <code>pre</code>【预发布分支】</p>
+<p><strong>每个分支构建对应具体的环境</strong></p>
+<p>开发流程 =&gt; 如开发版本 1.2.1 从 <code>master</code> 复制新建 dev_name_v1.2.1 分支<br>提测    =&gt; dev_name_v1.2.1分支合并到 <code>test</code> 分支，并构建测试环境<br>预发布  =&gt; dev_name_v1.2.1分支合并到 <code>pre</code> 分支，并构建预发布环境<br>上线    =&gt; dev_name_v1.2.1分支合并到 <code>master</code>，并删除当前分支</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">commit</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/02/git-commit-guidelines/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js/window-performance" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/17/js/window-performance/">【JS】前端性能分析之 window.performance</a>
+    </h1>
+  
+
+        
+        <a href="/2020/05/17/js/window-performance/" class="archive-article-date">
+  	<time datetime="2020-05-17T03:36:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://img-blog.csdnimg.cn/20200517113231351.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>Web Performance 接口允许网页中的 JavaScript 代码可以通过具体的函数（由 window 对象的 performance 属性提供）测量当前网页页面或者 web应用的性能。它能提供高精度的时间戳，可以更加精准的计算脚本运行的时间</p>
+</blockquote>
+<p>效果预览⬇️，参考简书的网页源代码实现，控制台切换成 H5 即可<br><img src="https://img-blog.csdnimg.cn/20200517111128250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>performance对象的timing属性指向一个对象，它包含了各种与浏览器性能有关的时间数据，提供浏览器处理网页各个阶段的耗时。我们在chrome中输入performance.timing就可以看到下面的数据<br><img src="https://img-blog.csdnimg.cn/20200517110907759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>参数详解，⚠️performance.timing的所有属性都是只读属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">navigationStart：是一个无符号long long 型的毫秒数，表征了从同一个浏览器上下文的上一个文档卸载(unload)结束时的UNIX时间戳。如果没有上一个文档，这个值会和PerformanceTiming.fetchStart相同。</span><br><span class="line">unloadEventStart：是一个无符号long long 型的毫秒数，表征了unload事件抛出时的UNIX时间戳。如果没有前一个网页，或者之前的网页跳转重定向不是在同一个域名内, 这个值会返回<span class="number">0.</span></span><br><span class="line">unloadEventEnd：是一个无符号long long 型的毫秒数，表征了unload事件处理完成时的UNIX时间戳。如果没有前一个网页，或者之前的网页跳转不是在同一个域名内， 这个值会返回<span class="number">0.</span></span><br><span class="line">redirectStart：是一个无符号long long 型的毫秒数，表征了第一个HTTP重定向开始时的UNIX时间戳。如果没有重定向，或者重定向中的一个不同源，这个值会返回<span class="number">0.</span></span><br><span class="line">redirectEnd：是一个无符号long long 型的毫秒数，表征了最后一个HTTP重定向完成时（也就是说是HTTP响应的最后一个bite直接被收到的时间）的UNIX时间戳。如果没有重定向，或者重定向中的一个不同源，这个值会返回<span class="number">0.</span></span><br><span class="line">fetchStart：是一个无符号long long 型的毫秒数，表征了浏览器准备好使用HTTP请求来获取(fetch)文档的UNIX时间戳。这个时间点会在检查任何应用缓存之前。</span><br><span class="line">domainLookupStart：是一个无符号long long 型的毫秒数，表征了域名查询开始的UNIX时间戳。如果使用了持续连接(persistent connection)，或者这个信息存储到了缓存或者本地资源上，这个值将和 PerformanceTiming.fetchStart一致。</span><br><span class="line">domainLookupEnd：是一个无符号long long 型的毫秒数，表征了域名查询结束的UNIX时间戳。如果使用了持续连接(persistent connection)，或者这个信息存储到了缓存或者本地资源上，这个值将和 PerformanceTiming.fetchStart一致。</span><br><span class="line">connectStart：返回HTTP请求开始向服务器发送时的Unix毫秒时间戳。如果使用持久连接（persistent connection），则返回值等同于fetchStart属性的值。</span><br><span class="line">(secureConnectionStart)：可选特性。用户代理如果没有对应的东东，就要把这个设置为<span class="literal">undefined</span>。如果有这个东东，并且是HTTPS协议，那么就要返回开始SSL握手的那个时间。 如果不是HTTPS， 那么就返回<span class="number">0</span></span><br><span class="line">connectEnd：返回浏览器与服务器之间的连接建立时的Unix毫秒时间戳。如果建立的是持久连接，则返回值等同于fetchStart属性的值。连接建立指的是所有握手和认证过程全部结束。</span><br><span class="line">secureConnectionStart：返回浏览器与服务器开始安全链接的握手时的Unix毫秒时间戳。如果当前网页不要求安全连接，则返回<span class="number">0</span>。</span><br><span class="line">requestStart：返回浏览器向服务器发出HTTP请求时（或开始读取本地缓存时）的Unix毫秒时间戳。</span><br><span class="line">responseStart：返回浏览器从服务器收到（或从本地缓存读取）第一个字节时的Unix毫秒时间戳。</span><br><span class="line">responseEnd：返回用户代理接收到最后一个字符的Unix毫秒时间戳，和当前连接被关闭的时间中，更早的那个。同样，文档可能来自服务器、缓存、或本地资源。</span><br><span class="line">domLoading：返回当前网页DOM结构开始解析时（即Document.readyState属性变为“loading”、相应的readystatechange事件触发时）的Unix毫秒时间戳。</span><br><span class="line">domInteractive：返回当前网页DOM结构结束解析、开始加载内嵌资源时（即Document.readyState属性变为“interactive”、相应的readystatechange事件触发时）的Unix毫秒时间戳。</span><br><span class="line">domContentLoadedEventStart：返回当前网页DOMContentLoaded事件发生时（即DOM结构解析完毕、所有脚本开始运行时）的Unix毫秒时间戳。</span><br><span class="line">domContentLoadedEventEnd：返回当前网页所有需要执行的脚本执行完成时的Unix毫秒时间戳。</span><br><span class="line">domComplete：返回当前网页DOM结构生成时（即Document.readyState属性变为“complete”，以及相应的readystatechange事件发生时）的Unix毫秒时间戳。</span><br><span class="line">loadEventStart：返回当前网页load事件的回调函数开始时的Unix毫秒时间戳。如果该事件还没有发生，返回<span class="number">0</span>。</span><br><span class="line">loadEventEnd：返回当前网页load事件的回调函数运行结束时的Unix毫秒时间戳。如果该事件还没有发生，返回<span class="number">0</span>。</span><br></pre></td></tr></table></figure>
+<p>先看下一个请求发出的整个过程中，各种环节的时间顺序<br><img src="https://img-blog.csdnimg.cn/2020051711142062.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>根据上面这些属性，可以计算出网页加载各个阶段的耗时，对我们比较有用的页面性能数据大概包括如下几个</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DNS查询耗时 ：domainLookupEnd - domainLookupStart</span><br><span class="line">TCP链接耗时 ：connectEnd - connectStart</span><br><span class="line">request请求耗时 ：responseEnd - responseStart</span><br><span class="line">解析dom树耗时 ： domComplete - domInteractive</span><br><span class="line">白屏时间 ：responseStart - navigationStart</span><br><span class="line">domready时间 ：domContentLoadedEventEnd - navigationStart</span><br><span class="line">onload时间 ：loadEventEnd - navigationStart</span><br></pre></td></tr></table></figure>
+
+<p>代码实现如下，基于ES6的简单实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// window.onload = () =&gt; setTimeout(getPerformance, 1000)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPerformance</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.performance) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> [</span><br><span class="line">          timing, start = timing.navigationStart</span><br><span class="line">        ] = [<span class="built_in">window</span>.performance.timing]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">const</span> getTime = <span class="function"><span class="params">key</span> =&gt;</span> timing[key + <span class="string">&#x27;End&#x27;</span>] - timing[key + <span class="string">&#x27;Start&#x27;</span>]; </span><br><span class="line">        <span class="keyword">const</span> options = &#123;</span><br><span class="line">          times: &#123;</span><br><span class="line">            alltime: timing.loadEventEnd - start,</span><br><span class="line">            lifecycle: [</span><br><span class="line">              &#123; <span class="attr">key</span>: <span class="string">&#x27;redirect&#x27;</span>, <span class="attr">desc</span>: <span class="string">&#x27;网页重定向的耗时&#x27;</span>, <span class="attr">value</span>: getTime(<span class="string">&#x27;redirect&#x27;</span>) &#125;,</span><br><span class="line">              &#123; <span class="attr">key</span>: <span class="string">&quot;cache&quot;</span>, <span class="attr">desc</span>: <span class="string">&quot;检查本地缓存的耗时&quot;</span>, <span class="attr">value</span>: timing.domainLookupStart - timing.fetchStart &#125;,</span><br><span class="line">              &#123; <span class="attr">key</span>: <span class="string">&#x27;dns&#x27;</span>, <span class="attr">desc</span>: <span class="string">&#x27;DNS查询的耗时&#x27;</span>, <span class="attr">value</span>: getTime(<span class="string">&#x27;domainLookup&#x27;</span>) &#125;,</span><br><span class="line">              &#123; <span class="attr">key</span>: <span class="string">&#x27;tcp&#x27;</span>, <span class="attr">desc</span>: <span class="string">&#x27;TCP连接的耗时&#x27;</span>, <span class="attr">value</span>: getTime(<span class="string">&#x27;connect&#x27;</span>) &#125;,</span><br><span class="line">              &#123; <span class="attr">key</span>: <span class="string">&quot;request&quot;</span>, <span class="attr">desc</span>: <span class="string">&quot;客户端发起请求的耗时&quot;</span>, <span class="attr">value</span>: timing.responseStart - timing.requestStart &#125;,</span><br><span class="line">              &#123; <span class="attr">key</span>: <span class="string">&#x27;response&#x27;</span>, <span class="attr">desc</span>: <span class="string">&#x27;服务端响应的耗时&#x27;</span>, <span class="attr">value</span>: getTime(<span class="string">&#x27;response&#x27;</span>) &#125;,</span><br><span class="line">              &#123; <span class="attr">key</span>: <span class="string">&#x27;render&#x27;</span>, <span class="attr">desc</span>: <span class="string">&#x27;渲染页面的耗时&#x27;</span>, <span class="attr">value</span>: timing.domContentLoadedEventEnd - start &#125;,</span><br><span class="line">            ] <span class="comment">// 自定义排序 _0, _1, ...</span></span><br><span class="line">            .reduce((<span class="function">(<span class="params">c, v, i</span>) =&gt;</span> (&#123; ...c, [<span class="string">&#x27;_&#x27;</span> + i]: v &#125;)), &#123;&#125;)</span><br><span class="line">          &#125;,</span><br><span class="line">          ua: <span class="built_in">window</span>.navigator.userAgent</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">        <span class="built_in">console</span>.log(options)</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="浏览器兼容性"><a href="#浏览器兼容性" class="headerlink" title="浏览器兼容性"></a>浏览器兼容性</h3><p><img src="https://img-blog.csdnimg.cn/20200517113057702.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/performance"> Window.performance - MDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/447d90911e71">window.performance - 简书</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.alloyteam.com/2015/09/explore-performance/">初探 performance – 监控网页与程序性能</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">performance</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/05/17/js/window-performance/">展开全文 >></a>
         </p>
       
 
@@ -334,7 +660,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随想</a>
+                <a href="javascript:void(0)" class="js-tag color4">Vue</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Aliplayer</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">commit</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">css</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">eslint</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">performance</a>
               </li>
             
             <div class="clearfix"></div>
@@ -385,7 +739,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">AsnLi&lt;br&gt;毕业于长沙理工大学，现居长沙&lt;br&gt;&lt;br&gt;热爱骑车与阅读&lt;br&gt;目前是一枚前端&lt;br&gt;&lt;br&gt;I’ll Try Anything Once</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">AsnLi&lt;br&gt;本科毕业于长沙理工大学，现居长沙&lt;br&gt;&lt;br&gt;热爱骑车与阅读&lt;br&gt;目前是一枚前端&lt;br&gt;&lt;br&gt;我也曾思绪纷飞&lt;br&gt;却在提笔时归于平静</div>
   	  	
     	</section>
     

@@ -6,18 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://asnli.github.io">
-  <title>Archives: 2021 | AsnLi的博客</title>
+  <title>git-commit-guidelines | AsnLi的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="擅长各项前端技能，深入研究移动端开发与前端性能。非专业视觉设计师。此为博客一枚。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AsnLi的博客">
-<meta property="og:url" content="https://asnli.github.io/archives/2021/index.html">
+  <meta name="description" content="Git Commit GuidelinesGit 提交应当书写 commit message, 开源社区最广泛的则是 Angular Git Commit Guidelines 规范 Angular 规范要求的 commit message 格式如下 1&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt; Header包括三个字段：type(必需)、scope">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git-commit-guidelines">
+<meta property="og:url" content="https://asnli.github.io/2020/06/02/git-commit-guidelines/index.html">
 <meta property="og:site_name" content="AsnLi的博客">
-<meta property="og:description" content="擅长各项前端技能，深入研究移动端开发与前端性能。非专业视觉设计师。此为博客一枚。">
+<meta property="og:description" content="Git Commit GuidelinesGit 提交应当书写 commit message, 开源社区最广泛的则是 Angular Git Commit Guidelines 规范 Angular 规范要求的 commit message 格式如下 1&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt; Header包括三个字段：type(必需)、scope">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200602101939420.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2020-06-02T02:21:43.000Z">
+<meta property="article:modified_time" content="2021-03-30T01:56:01.167Z">
 <meta property="article:author" content="AsnLi">
-<meta property="article:tag" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="commit">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200602101939420.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70#pic_center">
   
     <link rel="alternative" href="/atom.xml" title="AsnLi的博客" type="application/atom+xml">
   
@@ -155,64 +160,186 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-git-commit-guidelines" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/03/15/js/Aliplayer/" class="archive-article-date">
-  	<time datetime="2021-03-15T05:58:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-15</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/03/15/js/Aliplayer/">Aliplayer 视音频播放的实践与思考</a>
+    <h1 class="article-title" itemprop="name">
+      git-commit-guidelines
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/06/02/git-commit-guidelines/" class="archive-article-date">
+  	<time datetime="2020-06-02T02:21:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://img-blog.csdnimg.cn/20200602101939420.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNTk3MjU4,size_16,color_FFFFFF,t_70#pic_center" alt="GitLab"></p>
+<h3 id="Git-Commit-Guidelines"><a href="#Git-Commit-Guidelines" class="headerlink" title="Git Commit Guidelines"></a>Git Commit Guidelines</h3><p>Git 提交应当书写 commit message, 开源社区最广泛的则是 <a target="_blank" rel="noopener" href="https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit">Angular Git Commit Guidelines</a> 规范</p>
+<p>Angular 规范要求的 commit message 格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h3><p>包括三个字段：type(必需)、scope(可选)和subject(必需)</p>
+<h3 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h3><ul>
+<li>feat    : 新功能</li>
+<li>fix     : bug 修复</li>
+<li>docs    : 文档变更</li>
+<li>style   : 样式变更</li>
+<li>refactor: 重构（非新功能也不是bug修复的变动）</li>
+<li>perf    : 性能优化改进</li>
+<li>chore   : 构建过程或辅助工具变更</li>
+</ul>
+<h3 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h3><p>用于标识 commit 影响的范围，可以省略</p>
+<h3 id="Subject"><a href="#Subject" class="headerlink" title="Subject"></a>Subject</h3><p>本次修改的简短描述, 简单要求需言简意赅</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ol>
+<li>feat    : 商品详情页  feat(h5): 商品详情页 </li>
+<li>fix     : 接口变动导致内容报错</li>
+<li>docs    : 新增XX注释、图片、脚本</li>
+<li>style   : 首页样式优化</li>
+<li>refactor: 重构XX模块 refactor(dev)：重构XX模块</li>
+<li>perf    : 打包分析</li>
+<li>chore   : 清除 log</li>
+</ol>
+<h3 id="Branch-rules"><a href="#Branch-rules" class="headerlink" title="Branch rules"></a>Branch rules</h3><p>git分支：<code>master</code> 【生产主干】 <code>test</code>【测试分支】 <code>pre</code>【预发布分支】</p>
+<p><strong>每个分支构建对应具体的环境</strong></p>
+<p>开发流程 =&gt; 如开发版本 1.2.1 从 <code>master</code> 复制新建 dev_name_v1.2.1 分支<br>提测    =&gt; dev_name_v1.2.1分支合并到 <code>test</code> 分支，并构建测试环境<br>预发布  =&gt; dev_name_v1.2.1分支合并到 <code>pre</code> 分支，并构建预发布环境<br>上线    =&gt; dev_name_v1.2.1分支合并到 <code>master</code>，并删除当前分支</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Vue</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">git</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Aliplayer</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">commit</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://asnli.github.io/2020/06/02/git-commit-guidelines/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/06/09/css/css-rules-guidelines/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          css-rules-guidelines
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2020/05/17/js/window-performance/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【JS】前端性能分析之 window.performance</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -235,8 +362,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
