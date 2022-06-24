@@ -35,6 +35,18 @@
     #container.show {
       background: linear-gradient(200deg,#a0cfe4,#e8c37e);
     }
+
+    @media print {
+      .no-print {
+        display: none;
+      }
+      .left-col {
+        display: none
+      }
+      .mid-col {
+        left: 0
+      }
+    }
   </style>
   
 
@@ -342,7 +354,7 @@
         </div>
       </div>
       <footer id="footer">
-  <div class="outer">
+  <div class="outer no-print">
     <div id="footer-info">
     	<div class="footer-left">
     		&copy; 2022 AsnLi
@@ -353,6 +365,7 @@
     </div>
   </div>
 </footer>
+
     </div>
     <script>
 	var yiliaConfig = {
